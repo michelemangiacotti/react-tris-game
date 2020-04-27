@@ -3,15 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 
-class Square extends React.Component {
+// class Square extends React.Component {
 
-    render() {
+//     render() {
+//         return (
+//             <button className="square" onClick={() => this.props.onClick()}>
+//                 {this.props.value}
+//             </button>
+//         );
+//     }
+// }
+
+
+// conversione componente funzionale
+function Square (props) {
         return (
-            <button className="square" onClick={() => this.props.onClick()}>
-                {this.props.value}
+            <button className="square" onClick={props.onClick}>
+                {props.value}
             </button>
         );
-    }
 }
 
 class Board extends React.Component {
@@ -24,6 +34,7 @@ class Board extends React.Component {
         //   'O', null, null,]
         this.state = {
             squares: Array(9).fill(null),
+            xIsNext: true,
         };
     }
 
@@ -32,8 +43,10 @@ class Board extends React.Component {
     handleClick(i) {
         // il metodo slice ci da una copia dell'array di partenza
         const squares = this.state.squares.slice();
-        squares[i] = 'X';
-        this.setState({squares: squares});
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({ 
+            squares: squares,
+            xIsNext : !this.state.xIsNext});
       }
 
     renderSquare(i) {
